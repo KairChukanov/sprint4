@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<head>
+  <title>Register</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>Twitter</h1>
+    <nav>
+      <a href="register.html">Register</a>
+      <a href="login.html">Login</a>
+      <a href="profile.html">Profile</a>
+    </nav>
+  </header>
+  <div class="container">
+    <h2>Register</h2>
+    <form id="registerForm">
+      <input type="email" id="email" placeholder="Email" required>
+      <input type="password" id="password" placeholder="Password" required>
+      <input type="text" id="fullname" placeholder="Full Name" required>
+      <select id="country" required>
+        <option value="" disabled selected>Select your country</option>
+        <option value="Kazakhstan">Kazakhstan</option>
+        <option value="USA">USA</option>
+        <option value="UK">UK</option>
+      </select>
+      <input type="date" id="birthdate" required>
+      <button type="submit">Register</button>
+    </form>
+  </div>
+  <script>
+    document.querySelector('#registerForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      // Получаем значения из формы
+      const email = document.querySelector('#email').value;
+      const password = document.querySelector('#password').value;
+      const fullName = document.querySelector('#fullname').value;
+      const country = document.querySelector('#country').value;
+      const birthDate = document.querySelector('#birthdate').value;
+
+      // Загружаем существующих пользователей из localStorage
+      let users = JSON.parse(localStorage.getItem('users')) || [];
+
+      // Проверяем, существует ли пользователь с таким email
+      if (users.some(user => user.email === email)) {
+        alert('User with this email already exists!');
+        return;
+      }
+
+      // Добавляем нового пользователя в массив
+      const newUser = { email, password, fullName, country, birthDate };
+      users.push(newUser);
+
+      // Сохраняем обновленный массив пользователей в localStorage
+      localStorage.setItem('users', JSON.stringify(users));
+
+      alert('Registration successful!');
+      window.location.href = 'login.html';
+    });
+  </script>
+</body>
+</html>
